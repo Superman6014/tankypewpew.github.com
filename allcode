@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html> 
+ <head>
+    <title>Processing.JS inside Webpages: Template</title> 
+</head>
+ <body>
+    <p align="center"> 
+	      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+ 
+  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var newG = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 400); 
+        frameRate(30);
+var autoreload = false;
+var bsize = 5;
+var pm = 1;
+var gameS = false;
+var b1h = 0;
+var b1x = 200;
+var b1y = 200;
+var boss = false;
+var bspawn = 10000;
+var bhg = 350;
+var jd = false;
+var pmautobuy = false;
+var bP = getImage("cute/GrassBlock");
+var pmDouble = false;
+var a = getImage("cute/ShadowWest");
+var fb = false;
+var tr = -3;
+var fbtrs = -5;
+draw = function() {
+        var tankTurret = function(){
+        pushMatrix();
+        
+        translate(width/2,height/2);
+        rotate(TR);
+        fill(4, 87, 0);
+        ellipse(0,0,32,32);
+        fill(71, 133, 0);
+        rect(24,0,25,10);
+        if(mouseIsPressed){
+            rotate(270);
+            fill(255, 221, 0,150);
+            ellipse(0,by,bsize,bsize);
+            by = by + bs;
+        }
+        else{
+            by = 40;
+        }
+        if(by>height){
+            by = 40;
+        }
+        if(by > ey){
+            if(autoreload===true){
+            by = 40;
+            }
+            else{
+                by = -3000;
+            }
+            p = p + pm;
+            if(wc === 2){
+                ex = 200;
+                ey = random(height/2,0);
+            }
+            if(wc === 3){
+                ey = 200;
+                ex = random(-width/2,width/2);
+            }
+            if(wc === 4){
+                ex = - 200;
+                ey = random(height/2,0);
+            
+            }
+        }
+        fill(54, 23, 23);
+        popMatrix();
+    };
+    var tankBody = function(){
+        pushMatrix();
+        translate(width/2,height/2);
+        rotate(tr);
+        rectMode(CENTER);
+        fill(0, 56, 12);
+        rect(0,0,70,30,5);
+        fill(23, 23, 23);
+        rect(0,0 + 20,69,10,6);
+        rect(0,0 - 20,69,10,6);
+        fill(255);
+        popMatrix();
+    };
+    if(p>bspawn){
+        boss = true;
+        b1h = b1h + bhg;
+        bspawn = bspawn + 1000;
+        b1h = b1h + 250;
+        bhg = bhg + 0.5;
+    }
+if(fb===false){
+    if(mouseIsPressed){
+        gameS = true;
+        textSize(12);
+    }
+    if(gameS===true){
+    wc = floor(random(2,5));
+    background(255);
+    image(bP,-40,-360,514,1074);
+    if(p<0){
+        background(77, 0, 0);
+    }
+    fill(23,0,66);
+    text("[10 mil] DOUBLE POINT MULTIPLYER (" + pmDouble + ")",146,145);
+    if(mouseIsPressed){
+        if(p>10000000){
+            if(mouseX>146){
+                if(mouseY>145){
+                    if(mouseY<175){
+                        pmDouble = true;
+                        p = p - 1000000;
+                    }
+                }
+            }
+        }
+    }
+    if(pmDouble===true){
+        pm = pm + pm/100000000;
+    }
+    text("[FREE] Enable Point Multiplyer Auto Buy (" + pmautobuy + ")",145,127);
+    if(mouseIsPressed){
+    if(mouseX>145){
+        if(mouseY>120){
+            if(mouseY<160){
+                pmautobuy = true;
+
+
+            }
+        }
+    }
+    }
+    text("[$75] Bullet Speed + 3 ("+bs+")",250,30);
+    
+    var TR;
+    if(fb===false){
+    TR = atan2(ey,ex);
+    }
+    if(boss===true){
+        TR = 90;
+    }
+    if(mouseIsPressed){
+        if(bs<160){
+    if(mouseX>250){
+        if(mouseY<30){
+            if(p>75){
+            p = p - 75;
+            bs = bs + 3;
+            }
+        }
+    }
+        }
+    if(mouseX>250){
+        if(mouseY>30){
+            if(mouseY<60){
+                if(p>5000){
+                    autofire = true;
+                    p = p - 5000;
+                }
+            }
+        }
+    }
+    }
+    text("[$5k] Enable AUTOFIRE ("+autofire+")",230,50);
+    if(pmautobuy===true){
+        if(p>125){
+            p = p - 125;
+            pm = pm + 1.2;
+        }
+    }
+    if(mouseIsPressed){
+    if(mouseX>250){
+        if(mouseY>90){
+            if(mouseY<120){
+                if(p>125){
+                    pm = pm + 0.1;
+                    p = p - 125;
+                }
+            }
+        }
+    }
+    }
+    text("[$125] Upgrade Point Multiplyer (x" + pm + ")",195,110);
+    if(mouseIsPressed){
+    if(autoreload===false){
+    if(p>50){
+    if(mouseX>250){
+        if(mouseY>60){
+            if(mouseY<90){
+                autoreload = true;
+                p=p-50;
+            }
+        }
+    }
+    }
+    }
+    }
+    text("[$50] Enable AUTO RELOAD (" + autoreload + ")",205,70);
+    if(mouseIsPressed){
+    if(bsize<40){
+        if(p>100){
+            if(mouseX>250){
+                if(mouseY>80){
+                    if(mouseY<90){
+                        bsize = bsize + 0.5;
+                        p=p-100;
+                    }
+                }
+            }
+        }
+    }
+    }
+    text("[$100] Upgrade Bullet Size (" + bsize + ")",222,90);
+    if(autofire===true){
+        mouseIsPressed = true;
+    }
+    fill(255);
+
+    var enemy = function(){
+        pushMatrix();
+        translate(200,200);
+        ellipse(ex,ey,40,40);
+        if(ex<0){
+            ex = ex + es;
+        }
+        if(ex>0){
+            ex = ex - es;
+        }
+        if(ey > 0){
+            ey = ey - es;
+        }
+        if(p>1000){
+            es = 5;
+        }
+        if(p>5000){
+            es = 20;
+        }
+        if(p>10000){
+            es = 100;
+        }
+        popMatrix();
+    };
+    var boss1 = function(){
+        pushMatrix();
+        translate(0,200);
+        ellipse(b1x,b1y,b1h/200,b1h/200);
+        if(b1h>1){
+        b1y = b1y - 1;
+        }
+        if(by>b1y){
+            by = 40;
+            b1h = b1h - pm;
+        }
+        fill(150,b1h/3,0);
+        rect(59,300,100,400,20);
+        fill(-150,-b1h/3,0);
+        text("Boss Health: ",14,153);
+        text(floor(b1h),14,165);
+
+        popMatrix();
+        
+        
+    };
+    fill(23,0,66);
+    text("points = " + floor(p),20,20);
+    fill(255);
+    if(ey < 45){
+        if(ex<35){
+            if(ex>-35){
+        
+        background(255, 0, 0);
+        p = p - 5;
+            }
+        }
+    }
+    tankBody();
+    if(boss===false){
+    enemy();
+    }
+    tankTurret();
+    if(boss===true){
+        
+    if(b1h>1){
+    boss1();
+    }
+    }
+    if(b1y<40){
+        gameS = false;
+        pm = 1;
+        p = 0;
+        boss = false; 
+        b1y = 200;
+        autofire = false; 
+        autoreload = false;
+        bsize = 5;
+        b1h = 0;
+        bspawn = 1000;
+        jd = true;
+
+        
+    }
+    if(b1h<1){
+boss = false;
+b1y=200;
+}
+    }
+else{
+    
+    background(255);
+    if(jd===true){
+    text("You Lose!",16,152,100,100);
+    }
+    textSize(50);
+    fill(44, 0, 59);
+    text("Tanky PEW PEW",7,121);
+    textSize(20);
+    pushMatrix();
+    translate(63,82);
+    rotate(-20);
+    text("Welcome To:",0,0);
+    popMatrix();
+    strokeWeight(1);
+    text("A Clicker Game",129,138);
+    line(400,88,92,243);
+    fill(12, 46, 0);
+    strokeWeight(20);
+    stroke(15, 56, 0);
+    line(57,263,87,247);
+    stroke(0);
+    strokeWeight(1);
+    ellipse(44,273,50,45);
+    rectMode(CENTER);
+    rect(44,296,85,40,17);
+    fill(17, 26, 16);
+    rect(44,305,87,28,20);
+    strokeWeight(7);
+    line(14,314,14,295);
+    line(34,314,34,295);
+    line(54,314,54,295);
+    line(74,314,74,295);
+    strokeWeight(1);
+    line(0,400,400,200);
+    pushMatrix();
+    translate(172,266);
+    rotate(-30);
+    text("Click To Begin",0,0);
+    rotate(30);
+    fill(255, 111, 0);
+    noStroke();
+    ellipse(102,85,138,58);
+    rect(102,85,120,44);
+    stroke(0);
+    fill(43, 255, 0);
+    textSize(20);
+    text("New! Bosses!",41,89);
+    popMatrix();
+    
+    
+}
+}
+if(fb===true){
+    background(255);
+    var mScene = function(){
+        TR = TR + fbtrs;
+    };
+    mScene();
+    tankBody();
+    tankTurret();
+}
+};
+
+    }};
+
+       var canvas = document.getElementById("mycanvas"); 
+       var processingInstance = new Processing(canvas, newG); 
+ </script>
+
+</html>
